@@ -16,7 +16,7 @@
 
 // Contains all the wrappers from the common package.
 
-package geth
+package promethium
 
 import (
 	"encoding/hex"
@@ -24,8 +24,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/hexutil"
 )
 
 // Hash represents the 32 byte Keccak256 hash of arbitrary data.

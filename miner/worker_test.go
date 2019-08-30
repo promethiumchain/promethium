@@ -21,18 +21,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/clique"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/consensus"
+	"github.com/promethiumchain/promethium/consensus/clique"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/core/vm"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/event"
+	"github.com/promethiumchain/promethium/params"
 )
 
 var (
@@ -95,7 +95,7 @@ func newTestWorkerBackend(t *testing.T, chainConfig *params.ChainConfig, engine 
 
 	switch engine.(type) {
 	case *clique.Clique:
-		gspec.ExtraData = make([]byte, 32+common.AddressLength+crypto.SignatureLength)
+		gspec.ExtraData = make([]byte, 32+common.AddressLength+65)
 		copy(gspec.ExtraData[32:], testBankAddress[:])
 	case *ethash.Ethash:
 	default:

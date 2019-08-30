@@ -7,9 +7,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/common/math"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/hexutil"
+	"github.com/promethiumchain/promethium/common/math"
 )
 
 var _ = (*vmExecMarshaling)(nil)

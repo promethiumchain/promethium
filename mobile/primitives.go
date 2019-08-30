@@ -16,13 +16,13 @@
 
 // Contains various wrappers for primitive types.
 
-package geth
+package promethium
 
 import (
 	"errors"
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/promethiumchain/promethium/common"
 )
 
 // Strings represents s slice of strs.

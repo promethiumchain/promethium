@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/math"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/params"
 )
 
 //go:generate gencodec -type DifficultyTest -field-override difficultyTestMarshaling -out gen_difficultytest.go

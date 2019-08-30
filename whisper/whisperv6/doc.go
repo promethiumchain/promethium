@@ -34,15 +34,13 @@ package whisperv6
 
 import (
 	"time"
-
-	"github.com/ethereum/go-ethereum/crypto"
 )
 
 // Whisper protocol parameters
 const (
 	ProtocolVersion    = uint64(6) // Protocol version number
 	ProtocolVersionStr = "6.0"     // The same, as a string
-	ProtocolName       = "shh"     // Nickname of the protocol in geth
+	ProtocolName       = "shh"     // Nickname of the protocol in promethium
 
 	// whisper protocol message codes, according to EIP-627
 	statusCode           = 0   // used by whisper protocol
@@ -56,12 +54,12 @@ const (
 	SizeMask      = byte(3) // mask used to extract the size of payload size field from the flags
 	signatureFlag = byte(4)
 
-	TopicLength     = 4                      // in bytes
-	signatureLength = crypto.SignatureLength // in bytes
-	aesKeyLength    = 32                     // in bytes
-	aesNonceLength  = 12                     // in bytes; for more info please see cipher.gcmStandardNonceSize & aesgcm.NonceSize()
-	keyIDSize       = 32                     // in bytes
-	BloomFilterSize = 64                     // in bytes
+	TopicLength     = 4  // in bytes
+	signatureLength = 65 // in bytes
+	aesKeyLength    = 32 // in bytes
+	aesNonceLength  = 12 // in bytes; for more info please see cipher.gcmStandardNonceSize & aesgcm.NonceSize()
+	keyIDSize       = 32 // in bytes
+	BloomFilterSize = 64 // in bytes
 	flagsLength     = 1
 
 	EnvelopeHeaderLength = 20

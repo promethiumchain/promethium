@@ -20,10 +20,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 // Tests that positional lookup metadata can be stored and retrieved.

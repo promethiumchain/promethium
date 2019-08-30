@@ -21,8 +21,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/internal/debug"
+	"github.com/promethiumchain/promethium/params"
 	"gopkg.in/urfave/cli.v1"
 )
 

@@ -26,17 +26,17 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/les/flowcontrol"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/les/flowcontrol"
+	"github.com/promethiumchain/promethium/light"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/p2p/enode"
+	"github.com/promethiumchain/promethium/params"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 var (
@@ -94,7 +94,6 @@ type peer struct {
 	sendQueue *execQueue
 
 	errCh chan error
-
 	// responseLock ensures that responses are queued in the same order as
 	// RequestProcessed is called
 	responseLock  sync.Mutex
@@ -108,10 +107,11 @@ type peer struct {
 	updateTime     mclock.AbsTime
 	frozen         uint32 // 1 if client is in frozen state
 
-	fcClient *flowcontrol.ClientNode // nil if the peer is server only
-	fcServer *flowcontrol.ServerNode // nil if the peer is client only
-	fcParams flowcontrol.ServerParams
-	fcCosts  requestCostTable
+	fcClient       *flowcontrol.ClientNode // nil if the peer is server only
+	fcServer       *flowcontrol.ServerNode // nil if the peer is client only
+	fcParams       flowcontrol.ServerParams
+	fcCosts        requestCostTable
+	balanceTracker *balanceTracker // set by clientPool.connect, used and removed by serverHandler.
 
 	trusted                 bool
 	onlyAnnounce            bool

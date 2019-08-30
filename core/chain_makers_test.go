@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/core/vm"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/params"
 )
 
 func ExampleGenerateChain() {

@@ -20,9 +20,9 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 type ltrInfo struct {

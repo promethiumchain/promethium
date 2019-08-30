@@ -19,10 +19,10 @@ package state
 import (
 	"bytes"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/rlp"
+	"github.com/promethiumchain/promethium/trie"
 )
 
 // NewStateSync create a new state trie download scheduler.

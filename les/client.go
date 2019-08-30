@@ -20,29 +20,29 @@ package les
 import (
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/bloombits"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/filters"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/promethiumchain/promethium/accounts"
+	"github.com/promethiumchain/promethium/accounts/abi/bind"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/hexutil"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/consensus"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/bloombits"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/eth/downloader"
+	"github.com/promethiumchain/promethium/eth/filters"
+	"github.com/promethiumchain/promethium/eth/gasprice"
+	"github.com/promethiumchain/promethium/event"
+	"github.com/promethiumchain/promethium/internal/ethapi"
+	"github.com/promethiumchain/promethium/light"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/node"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/p2p/enode"
+	"github.com/promethiumchain/promethium/params"
+	"github.com/promethiumchain/promethium/rpc"
 )
 
 type LightEthereum struct {
@@ -72,7 +72,7 @@ func New(ctx *node.ServiceContext, config *eth.Config) (*LightEthereum, error) {
 	if err != nil {
 		return nil, err
 	}
-	chainConfig, genesisHash, genesisErr := core.SetupGenesisBlockWithOverride(chainDb, config.Genesis, config.OverrideIstanbul)
+	chainConfig, genesisHash, genesisErr := core.SetupGenesisBlock(chainDb, config.Genesis)
 	if _, isCompat := genesisErr.(*params.ConfigCompatError); genesisErr != nil && !isCompat {
 		return nil, genesisErr
 	}

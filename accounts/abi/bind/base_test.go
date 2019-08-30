@@ -23,14 +23,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium"
+	"github.com/promethiumchain/promethium/accounts/abi"
+	"github.com/promethiumchain/promethium/accounts/abi/bind"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/hexutil"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 type mockCaller struct {

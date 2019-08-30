@@ -35,4 +35,7 @@ var (
 
 	// ErrNoGenesis is returned when there is no Genesis Block.
 	ErrNoGenesis = errors.New("genesis not found in chain")
+
+	// ErrInIncomingChain is returned when the protector detects malicious chain.
+	ErrInIncomingChain = errors.New("error in incoming chain, its malicious")
 )

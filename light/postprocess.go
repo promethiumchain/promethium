@@ -24,16 +24,16 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/bitutil"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/bitutil"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/params"
+	"github.com/promethiumchain/promethium/rlp"
+	"github.com/promethiumchain/promethium/trie"
 )
 
 // IndexerConfig includes a set of configs for chain indexers.

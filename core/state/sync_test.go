@@ -21,12 +21,12 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/ethdb/memorydb"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/ethdb/memorydb"
+	"github.com/promethiumchain/promethium/trie"
 )
 
 // testAccount is the data associated with an account used by the state tests.

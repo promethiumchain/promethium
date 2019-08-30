@@ -26,24 +26,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind/backends"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/contracts/checkpointoracle/contract"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/les/flowcontrol"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/accounts/abi/bind"
+	"github.com/promethiumchain/promethium/accounts/abi/bind/backends"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/contracts/checkpointoracle/contract"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/event"
+	"github.com/promethiumchain/promethium/les/flowcontrol"
+	"github.com/promethiumchain/promethium/light"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/p2p/enode"
+	"github.com/promethiumchain/promethium/params"
 )
 
 var (
@@ -280,8 +280,6 @@ func newTestServerHandler(blocks int, indexers []*core.ChainIndexer, db ethdb.Da
 	}
 	server.costTracker, server.freeCapacity = newCostTracker(db, server.config)
 	server.costTracker.testCostList = testCostList(0) // Disable flow control mechanism.
-	server.clientPool = newClientPool(db, 1, 10000, clock, nil)
-	server.clientPool.setLimits(10000, 10000) // Assign enough capacity for clientpool
 	server.handler = newServerHandler(server, simulation.Blockchain(), db, txpool, func() bool { return true })
 	if server.oracle != nil {
 		server.oracle.start(simulation)

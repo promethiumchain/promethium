@@ -17,14 +17,14 @@
 package core
 
 import (
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/consensus"
+	"github.com/promethiumchain/promethium/consensus/misc"
+	"github.com/promethiumchain/promethium/core/state"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/core/vm"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/params"
 )
 
 // StateProcessor is a basic Processor, which takes care of transitioning

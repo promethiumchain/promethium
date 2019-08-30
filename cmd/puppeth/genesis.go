@@ -23,12 +23,12 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	math2 "github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/hexutil"
+	math2 "github.com/promethiumchain/promethium/common/math"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/params"
 )
 
 // alethGenesisSpec represents the genesis specification format used by the
@@ -359,7 +359,7 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 	spec.Params.NetworkID = (hexutil.Uint64)(genesis.Config.ChainID.Uint64())
 	spec.Params.ChainID = (hexutil.Uint64)(genesis.Config.ChainID.Uint64())
 	spec.Params.MaxCodeSize = params.MaxCodeSize
-	// geth has it set from zero
+	// promethium has it set from zero
 	spec.Params.MaxCodeSizeTransition = 0
 
 	// Disable this one

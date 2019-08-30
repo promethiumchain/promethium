@@ -22,12 +22,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/common/prque"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/common/prque"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/p2p/enode"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 const (
@@ -181,53 +181,52 @@ func (f *clientPool) stop() {
 	f.lock.Unlock()
 }
 
+// registerPeer implements peerSetNotify
+func (f *clientPool) registerPeer(p *peer) {
+	c := f.connect(p, 0)
+	if c != nil {
+		p.balanceTracker = &c.balanceTracker
+	}
+}
+
 // connect should be called after a successful handshake. If the connection was
 // rejected, there is no need to call disconnect.
-func (f *clientPool) connect(peer clientPeer, capacity uint64) bool {
+func (f *clientPool) connect(peer clientPeer, capacity uint64) *clientInfo {
 	f.lock.Lock()
 	defer f.lock.Unlock()
 
-	// Short circuit is clientPool is already closed.
 	if f.closed {
-		return false
+		return nil
 	}
-	// Dedup connected peers.
-	id, freeID := peer.ID(), peer.freeClientId()
+	address := peer.freeClientId()
+	id := peer.ID()
+	idStr := peerIdToString(id)
 	if _, ok := f.connectedMap[id]; ok {
 		clientRejectedMeter.Mark(1)
-		log.Debug("Client already connected", "address", freeID, "id", peerIdToString(id))
-		return false
+		log.Debug("Client already connected", "address", address, "id", idStr)
+		return nil
 	}
-	// Create a clientInfo but do not add it yet
 	now := f.clock.Now()
+	// create a clientInfo but do not add it yet
+	e := &clientInfo{pool: f, peer: peer, address: address, queueIndex: -1, id: id}
 	posBalance := f.getPosBalance(id).value
-	e := &clientInfo{pool: f, peer: peer, address: freeID, queueIndex: -1, id: id, priority: posBalance != 0}
-
+	e.priority = posBalance != 0
 	var negBalance uint64
-	nb := f.negBalanceMap[freeID]
+	nb := f.negBalanceMap[address]
 	if nb != nil {
 		negBalance = uint64(math.Exp(float64(nb.logValue-f.logOffset(now)) / fixedPointMultiplier))
 	}
-	// If the client is a free client, assign with a low free capacity,
-	// Otherwise assign with the given value(priority client)
 	if !e.priority {
 		capacity = f.freeClientCap
 	}
-	// Ensure the capacity will never lower than the free capacity.
+	// check whether it fits into connectedQueue
 	if capacity < f.freeClientCap {
 		capacity = f.freeClientCap
 	}
 	e.capacity = capacity
-
 	e.balanceTracker.init(f.clock, capacity)
 	e.balanceTracker.setBalance(posBalance, negBalance)
 	f.setClientPriceFactors(e)
-
-	// If the number of clients already connected in the clientpool exceeds its
-	// capacity, evict some clients with lowest priority.
-	//
-	// If the priority of the newly added client is lower than the priority of
-	// all connected clients, the client is rejected.
 	newCapacity := f.connectedCapacity + capacity
 	newCount := f.connectedQueue.Size() + 1
 	if newCapacity > f.capacityLimit || newCount > f.countLimit {
@@ -249,8 +248,8 @@ func (f *clientPool) connect(peer clientPeer, capacity uint64) bool {
 				f.connectedQueue.Push(c)
 			}
 			clientRejectedMeter.Mark(1)
-			log.Debug("Client rejected", "address", freeID, "id", peerIdToString(id))
-			return false
+			log.Debug("Client rejected", "address", address, "id", idStr)
+			return nil
 		}
 		// accept new client, drop old ones
 		for _, c := range kickList {
@@ -259,7 +258,7 @@ func (f *clientPool) connect(peer clientPeer, capacity uint64) bool {
 	}
 	// client accepted, finish setting it up
 	if nb != nil {
-		delete(f.negBalanceMap, freeID)
+		delete(f.negBalanceMap, address)
 		f.negBalanceQueue.Remove(nb.queueIndex)
 	}
 	if e.priority {
@@ -273,8 +272,13 @@ func (f *clientPool) connect(peer clientPeer, capacity uint64) bool {
 		e.peer.updateCapacity(e.capacity)
 	}
 	clientConnectedMeter.Mark(1)
-	log.Debug("Client accepted", "address", freeID)
-	return true
+	log.Debug("Client accepted", "address", address)
+	return e
+}
+
+// unregisterPeer implements peerSetNotify
+func (f *clientPool) unregisterPeer(p *peer) {
+	f.disconnect(p)
 }
 
 // disconnect should be called when a connection is terminated. If the disconnection
@@ -372,18 +376,6 @@ func (f *clientPool) setLimits(count int, totalCap uint64) {
 		f.dropClient(c, now, true)
 		return f.connectedCapacity > f.capacityLimit || f.connectedQueue.Size() > f.countLimit
 	})
-}
-
-// requestCost feeds request cost after serving a request from the given peer.
-func (f *clientPool) requestCost(p *peer, cost uint64) {
-	f.lock.Lock()
-	defer f.lock.Unlock()
-
-	info, exist := f.connectedMap[p.ID()]
-	if !exist || f.closed {
-		return
-	}
-	info.balanceTracker.requestCost(cost)
 }
 
 // logOffset calculates the time-dependent offset for the logarithmic

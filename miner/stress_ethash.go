@@ -28,20 +28,20 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/fdlimit"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/accounts/keystore"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/fdlimit"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/eth/downloader"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/node"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/p2p/enode"
+	"github.com/promethiumchain/promethium/params"
 )
 
 func main() {
@@ -153,7 +153,7 @@ func makeMiner(genesis *core.Genesis) (*node.Node, error) {
 	datadir, _ := ioutil.TempDir("", "")
 
 	config := &node.Config{
-		Name:    "geth",
+		Name:    "promethium",
 		Version: params.Version,
 		DataDir: datadir,
 		P2P: p2p.Config{

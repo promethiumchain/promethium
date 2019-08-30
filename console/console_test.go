@@ -26,13 +26,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/internal/jsre"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/node"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/consensus/ethash"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/internal/jsre"
+	"github.com/promethiumchain/promethium/miner"
+	"github.com/promethiumchain/promethium/node"
 )
 
 const (

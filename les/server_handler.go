@@ -24,19 +24,19 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/state"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/light"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/metrics"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/rlp"
+	"github.com/promethiumchain/promethium/trie"
 )
 
 const (
@@ -54,10 +54,7 @@ const (
 	MaxTxStatus              = 256 // Amount of transactions to queried per request
 )
 
-var (
-	errTooManyInvalidRequest = errors.New("too many invalid requests made")
-	errFullClientPool        = errors.New("client pool is full")
-)
+var errTooManyInvalidRequest = errors.New("too many invalid requests made")
 
 // serverHandler is responsible for serving light client and process
 // all incoming light requests.
@@ -127,26 +124,23 @@ func (h *serverHandler) handle(p *peer) error {
 	}
 	defer p.fcClient.Disconnect()
 
-	// Disconnect the inbound peer if it's rejected by clientPool
-	if !h.server.clientPool.connect(p, 0) {
-		p.Log().Debug("Light Ethereum peer registration failed", "err", errFullClientPool)
-		return errFullClientPool
-	}
 	// Register the peer locally
 	if err := h.server.peers.Register(p); err != nil {
-		h.server.clientPool.disconnect(p)
 		p.Log().Error("Light Ethereum peer registration failed", "err", err)
 		return err
 	}
 	clientConnectionGauge.Update(int64(h.server.peers.Len()))
 
-	var wg sync.WaitGroup // Wait group used to track all in-flight task routines.
+	// add dummy balance tracker for tests
+	if p.balanceTracker == nil {
+		p.balanceTracker = &balanceTracker{}
+		p.balanceTracker.init(&mclock.System{}, 1)
+	}
 
 	connectedAt := mclock.Now()
 	defer func() {
-		wg.Wait() // Ensure all background task routines have exited.
+		p.balanceTracker = nil
 		h.server.peers.Unregister(p.id)
-		h.server.clientPool.disconnect(p)
 		clientConnectionGauge.Update(int64(h.server.peers.Len()))
 		connectionTimer.Update(time.Duration(mclock.Now() - connectedAt))
 	}()
@@ -159,7 +153,7 @@ func (h *serverHandler) handle(p *peer) error {
 			return err
 		default:
 		}
-		if err := h.handleMsg(p, &wg); err != nil {
+		if err := h.handleMsg(p); err != nil {
 			p.Log().Debug("Light Ethereum message handling failed", "err", err)
 			return err
 		}
@@ -168,7 +162,7 @@ func (h *serverHandler) handle(p *peer) error {
 
 // handleMsg is invoked whenever an inbound message is received from a remote
 // peer. The remote connection is torn down upon returning any error.
-func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
+func (h *serverHandler) handleMsg(p *peer) error {
 	// Read the next message from the remote peer, and ensure it's fully consumed
 	msg, err := p.rw.ReadMsg()
 	if err != nil {
@@ -249,7 +243,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 			// Feed cost tracker request serving statistic.
 			h.server.costTracker.updateStats(msg.Code, amount, servingTime, realCost)
 			// Reduce priority "balance" for the specific peer.
-			h.server.clientPool.requestCost(p, realCost)
+			p.balanceTracker.requestCost(realCost)
 		}
 		if reply != nil {
 			p.queueSend(func() {
@@ -279,9 +273,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		}
 		query := req.Query
 		if accept(req.ReqID, query.Amount, MaxHeaderFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				hashMode := query.Origin.Hash != (common.Hash{})
 				first := true
 				maxNonCanonical := uint64(100)
@@ -395,9 +387,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		)
 		reqCnt := len(req.Hashes)
 		if accept(req.ReqID, uint64(reqCnt), MaxBodyFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				for i, hash := range req.Hashes {
 					if i != 0 && !task.waitOrStop() {
 						sendResponse(req.ReqID, 0, nil, task.servingTime)
@@ -443,9 +433,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		)
 		reqCnt := len(req.Reqs)
 		if accept(req.ReqID, uint64(reqCnt), MaxCodeFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				for i, request := range req.Reqs {
 					if i != 0 && !task.waitOrStop() {
 						sendResponse(req.ReqID, 0, nil, task.servingTime)
@@ -514,9 +502,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		)
 		reqCnt := len(req.Hashes)
 		if accept(req.ReqID, uint64(reqCnt), MaxReceiptFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				for i, hash := range req.Hashes {
 					if i != 0 && !task.waitOrStop() {
 						sendResponse(req.ReqID, 0, nil, task.servingTime)
@@ -571,9 +557,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		)
 		reqCnt := len(req.Reqs)
 		if accept(req.ReqID, uint64(reqCnt), MaxProofsFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				nodes := light.NewNodeSet()
 
 				for i, request := range req.Reqs {
@@ -583,6 +567,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 					}
 					// Look up the root hash belonging to the request
 					var (
+						number *uint64
 						header *types.Header
 						trie   state.Trie
 					)
@@ -590,7 +575,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 						root, lastBHash = common.Hash{}, request.BHash
 
 						if header = h.blockchain.GetHeaderByHash(request.BHash); header == nil {
-							p.Log().Warn("Failed to retrieve header for proof", "hash", request.BHash)
+							p.Log().Warn("Failed to retrieve header for proof", "block", *number, "hash", request.BHash)
 							atomic.AddUint32(&p.invalidCount, 1)
 							continue
 						}
@@ -673,9 +658,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		)
 		reqCnt := len(req.Reqs)
 		if accept(req.ReqID, uint64(reqCnt), MaxHelperTrieProofsFetch) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				var (
 					lastIdx  uint64
 					lastType uint
@@ -742,9 +725,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		}
 		reqCnt := len(req.Txs)
 		if accept(req.ReqID, uint64(reqCnt), MaxTxSend) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				stats := make([]light.TxStatus, len(req.Txs))
 				for i, tx := range req.Txs {
 					if i != 0 && !task.waitOrStop() {
@@ -790,9 +771,7 @@ func (h *serverHandler) handleMsg(p *peer, wg *sync.WaitGroup) error {
 		}
 		reqCnt := len(req.Hashes)
 		if accept(req.ReqID, uint64(reqCnt), MaxTxStatus) {
-			wg.Add(1)
 			go func() {
-				defer wg.Done()
 				stats := make([]light.TxStatus, len(req.Hashes))
 				for i, hash := range req.Hashes {
 					if i != 0 && !task.waitOrStop() {

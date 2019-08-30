@@ -21,11 +21,11 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/light"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/eth/downloader"
+	"github.com/promethiumchain/promethium/light"
+	"github.com/promethiumchain/promethium/log"
 )
 
 var errInvalidCheckpoint = errors.New("invalid advertised checkpoint")

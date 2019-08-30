@@ -27,10 +27,10 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/bitutil"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/bitutil"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/log"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -94,25 +94,44 @@ func calcDatasetSize(epoch int) uint64 {
 // reused between hash runs instead of requiring new ones to be created.
 type hasher func(dest []byte, data []byte)
 
-// makeHasher creates a repetitive hasher, allowing the same hash data structures to
-// be reused between hash runs instead of requiring new ones to be created. The returned
-// function is not thread safe!
+// // makeHasher creates a repetitive hasher, allowing the same hash data structures to
+// // be reused between hash runs instead of requiring new ones to be created. The returned
+// // function is not thread safe!
+// func makeHasher(h hash.Hash) hasher {
+// 	// sha3.state supports Read to get the sum, use it to avoid the overhead of Sum.
+// 	// Read alters the state but we reset the hash before every operation.
+// 	type readerHash interface {
+// 		hash.Hash
+// 		Read([]byte) (int, error)
+// 	}
+// 	rh, ok := h.(readerHash)
+// 	if !ok {
+// 		panic("can't find Read method on hash")
+// 	}
+// 	outputLen := rh.Size()
+// 	return func(dest []byte, data []byte) {
+// 		rh.Reset()
+// 		rh.Write(data)
+// 		rh.Read(dest[:outputLen])
+// 	}
+// }
+
 func makeHasher(h hash.Hash) hasher {
-	// sha3.state supports Read to get the sum, use it to avoid the overhead of Sum.
-	// Read alters the state but we reset the hash before every operation.
-	type readerHash interface {
-		hash.Hash
-		Read([]byte) (int, error)
-	}
-	rh, ok := h.(readerHash)
-	if !ok {
-		panic("can't find Read method on hash")
-	}
-	outputLen := rh.Size()
 	return func(dest []byte, data []byte) {
-		rh.Reset()
-		rh.Write(data)
-		rh.Read(dest[:outputLen])
+		h.Write(data)
+		h.Sum(dest[:0])
+		h.Reset()
+	}
+}
+
+// Indexes holds the indexes values for this block
+var Indexes = []int{1, 2, 3, 4, 5}
+
+func plHasher() hasher {
+	return func(dest []byte, data []byte) {
+		hi, _ := CompletePass(data, Indexes)
+		b := hi.Bytes()
+		copy(dest, b[:])
 	}
 }
 
@@ -177,12 +196,10 @@ func generateCache(dest []uint32, epoch uint64, seed []byte) {
 		}
 	}()
 	// Create a hasher to reuse between invocations
-	keccak512 := makeHasher(sha3.NewLegacyKeccak512())
-
-	// Sequentially produce the initial dataset
-	keccak512(cache, seed)
+	plhash := plHasher()
+	plhash(cache, seed)
 	for offset := uint64(hashBytes); offset < size; offset += hashBytes {
-		keccak512(cache[offset:], cache[offset-hashBytes:offset])
+		plhash(cache[offset:], cache[offset-hashBytes:offset])
 		atomic.AddUint32(&progress, 1)
 	}
 	// Use a low-round version of randmemohash
@@ -196,7 +213,7 @@ func generateCache(dest []uint32, epoch uint64, seed []byte) {
 				xorOff = (binary.LittleEndian.Uint32(cache[dstOff:]) % uint32(rows)) * hashBytes
 			)
 			bitutil.XORBytes(temp, cache[srcOff:srcOff+hashBytes], cache[xorOff:xorOff+hashBytes])
-			keccak512(cache[dstOff:], temp)
+			plhash(cache[dstOff:], temp)
 
 			atomic.AddUint32(&progress, 1)
 		}
@@ -231,7 +248,7 @@ func fnvHash(mix []uint32, data []uint32) {
 
 // generateDatasetItem combines data from 256 pseudorandomly selected cache nodes,
 // and hashes that to compute a single dataset node.
-func generateDatasetItem(cache []uint32, index uint32, keccak512 hasher) []byte {
+func generateDatasetItem(cache []uint32, index uint32, pl hasher) []byte {
 	// Calculate the number of theoretical rows (we use one buffer nonetheless)
 	rows := uint32(len(cache) / hashWords)
 
@@ -242,7 +259,7 @@ func generateDatasetItem(cache []uint32, index uint32, keccak512 hasher) []byte 
 	for i := 1; i < hashWords; i++ {
 		binary.LittleEndian.PutUint32(mix[i*4:], cache[(index%rows)*hashWords+uint32(i)])
 	}
-	keccak512(mix, mix)
+	pl(mix, mix)
 
 	// Convert the mix to uint32s to avoid constant bit shifting
 	intMix := make([]uint32, hashWords)
@@ -258,7 +275,7 @@ func generateDatasetItem(cache []uint32, index uint32, keccak512 hasher) []byte 
 	for i, val := range intMix {
 		binary.LittleEndian.PutUint32(mix[i*4:], val)
 	}
-	keccak512(mix, mix)
+	pl(mix, mix)
 	return mix
 }
 
@@ -302,7 +319,6 @@ func generateDataset(dest []uint32, epoch uint64, cache []uint32) {
 
 			// Create a hasher to reuse between invocations
 			keccak512 := makeHasher(sha3.NewLegacyKeccak512())
-
 			// Calculate the data segment this thread should generate
 			batch := uint32((size + hashBytes*uint64(threads) - 1) / (hashBytes * uint64(threads)))
 			first := uint32(id) * batch
@@ -376,7 +392,7 @@ func hashimoto(hash []byte, nonce uint64, size uint64, lookup func(index uint32)
 // hash and nonce.
 func hashimotoLight(size uint64, cache []uint32, hash []byte, nonce uint64) ([]byte, []byte) {
 	keccak512 := makeHasher(sha3.NewLegacyKeccak512())
-
+	// plhash := plHasher()
 	lookup := func(index uint32) []uint32 {
 		rawData := generateDatasetItem(cache, index, keccak512)
 

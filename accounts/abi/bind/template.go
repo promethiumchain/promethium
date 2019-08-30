@@ -16,7 +16,7 @@
 
 package bind
 
-import "github.com/ethereum/go-ethereum/accounts/abi"
+import "github.com/promethiumchain/promethium/accounts/abi"
 
 // tmplData is the data structure required to fill the binding template.
 type tmplData struct {
@@ -88,12 +88,12 @@ import (
 	"math/big"
 	"strings"
 
-	ethereum "github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/event"
+	ethereum "github.com/promethiumchain/promethium"
+	"github.com/promethiumchain/promethium/accounts/abi"
+	"github.com/promethiumchain/promethium/accounts/abi/bind"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/event"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -504,7 +504,7 @@ const tmplSourceJava = `
 
 package {{.Package}};
 
-import org.ethereum.geth.*;
+import org.ethereum.promethium.*;
 import java.util.*;
 
 {{range $contract := .Contracts}}

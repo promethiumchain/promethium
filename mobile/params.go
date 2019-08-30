@@ -16,14 +16,14 @@
 
 // Contains all the wrappers from the params package.
 
-package geth
+package promethium
 
 import (
 	"encoding/json"
 
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/p2p/discv5"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/p2p/discv5"
+	"github.com/promethiumchain/promethium/params"
 )
 
 // MainnetGenesis returns the JSON spec to use for the main Ethereum network. It

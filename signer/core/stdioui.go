@@ -20,9 +20,9 @@ import (
 	"context"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/promethiumchain/promethium/internal/ethapi"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/rpc"
 )
 
 type StdIOUI struct {

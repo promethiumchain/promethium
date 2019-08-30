@@ -26,11 +26,11 @@ import (
 	"time"
 
 	"github.com/allegro/bigcache"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/metrics"
+	"github.com/promethiumchain/promethium/rlp"
 )
 
 var (

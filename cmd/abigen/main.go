@@ -23,11 +23,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common/compiler"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/promethiumchain/promethium/accounts/abi/bind"
+	"github.com/promethiumchain/promethium/cmd/utils"
+	"github.com/promethiumchain/promethium/common/compiler"
+	"github.com/promethiumchain/promethium/crypto"
+	"github.com/promethiumchain/promethium/log"
 	"gopkg.in/urfave/cli.v1"
 )
 

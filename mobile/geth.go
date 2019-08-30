@@ -17,25 +17,25 @@
 // Contains all the wrappers from the node package to support client side node
 // management on mobile platforms.
 
-package geth
+package promethium
 
 import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
 
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/ethstats"
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/params"
-	whisper "github.com/ethereum/go-ethereum/whisper/whisperv6"
+	"github.com/promethiumchain/promethium/core"
+	"github.com/promethiumchain/promethium/eth"
+	"github.com/promethiumchain/promethium/eth/downloader"
+	"github.com/promethiumchain/promethium/ethclient"
+	"github.com/promethiumchain/promethium/ethstats"
+	"github.com/promethiumchain/promethium/internal/debug"
+	"github.com/promethiumchain/promethium/les"
+	"github.com/promethiumchain/promethium/node"
+	"github.com/promethiumchain/promethium/p2p"
+	"github.com/promethiumchain/promethium/p2p/nat"
+	"github.com/promethiumchain/promethium/params"
+	whisper "github.com/promethiumchain/promethium/whisper/whisperv6"
 )
 
 // NodeConfig represents the collection of configuration values to fine tune the Geth

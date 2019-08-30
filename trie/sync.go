@@ -20,9 +20,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/prque"
-	"github.com/ethereum/go-ethereum/ethdb"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/prque"
+	"github.com/promethiumchain/promethium/ethdb"
 )
 
 // ErrNotRequested is returned by the trie sync when it's requested to process a

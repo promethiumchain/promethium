@@ -22,9 +22,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common/fdlimit"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/promethiumchain/promethium/cmd/utils"
+	"github.com/promethiumchain/promethium/common/fdlimit"
+	"github.com/promethiumchain/promethium/log"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -85,7 +85,7 @@ var (
 	nodeURLFlag = cli.StringFlag{
 		Name:  "rpc",
 		Value: "http://localhost:8545",
-		Usage: "The rpc endpoint of a local or remote geth node",
+		Usage: "The rpc endpoint of a local or remote promethium node",
 	}
 	clefURLFlag = cli.StringFlag{
 		Name:  "clef",

@@ -23,9 +23,9 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/promethiumchain/promethium/accounts/abi"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/crypto"
 )
 
 // makeTopics converts a filter query argument list into a filter topic set.

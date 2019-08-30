@@ -25,14 +25,14 @@ import (
 	"time"
 
 	mapset "github.com/deckarep/golang-set"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/misc"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/math"
+	"github.com/promethiumchain/promethium/consensus"
+	"github.com/promethiumchain/promethium/consensus/misc"
+	"github.com/promethiumchain/promethium/core/state"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/params"
+	"github.com/promethiumchain/promethium/rlp"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -608,17 +608,74 @@ var (
 	big32 = big.NewInt(32)
 )
 
+var (
+	chainPhaseOne   int64 = 2500000
+	chainPhaseTwo   int64 = 5000000
+	chainPhaseThree int64 = 7500000
+)
+
 // AccumulateRewards credits the coinbase of the given block with the mining
 // reward. The total reward consists of the static block reward and rewards for
 // included uncles. The coinbase of each uncle block is also rewarded.
 func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header *types.Header, uncles []*types.Header) {
 	// Select the correct block reward based on chain progression
-	blockReward := FrontierBlockReward
-	if config.IsByzantium(header.Number) {
-		blockReward = ByzantiumBlockReward
+	wei := big.NewInt(1e+18)
+	blockReward := new(big.Int).Mul(big.NewInt(3), wei)
+	tmp := new(big.Int).Mul(big.NewInt(3), wei)
+	devReward := new(big.Int).Mul(big.NewInt(1), wei)
+
+	percentBlock := new(big.Int).Mul(big.NewInt(85), wei)
+	percentDev := new(big.Int).Mul(big.NewInt(15), wei)
+	percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
+
+	blockReward.Mul(blockReward, percentBlock)
+	blockReward.Div(blockReward, percentCounter)
+
+	devReward.Mul(tmp, percentDev)
+	devReward.Div(devReward, percentCounter)
+
+	if header.Number.Int64() > chainPhaseOne {
+		tmp = new(big.Int).Mul(big.NewInt(2), wei)
+		blockReward = new(big.Int).Mul(big.NewInt(2), wei)
+		devReward = new(big.Int).Mul(big.NewInt(1), wei)
+		percentBlock := new(big.Int).Mul(big.NewInt(90), wei)
+		percentDev := new(big.Int).Mul(big.NewInt(10), wei)
+		percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
+
+		blockReward.Mul(blockReward, percentBlock)
+		blockReward.Div(blockReward, percentCounter)
+
+		devReward.Mul(tmp, percentDev)
+		devReward.Div(devReward, percentCounter)
+
 	}
-	if config.IsConstantinople(header.Number) {
-		blockReward = ConstantinopleBlockReward
+	if header.Number.Int64() > chainPhaseTwo {
+		tmp = new(big.Int).Mul(big.NewInt(1), wei)
+		blockReward = new(big.Int).Mul(big.NewInt(1), wei)
+		devReward = new(big.Int).Mul(big.NewInt(1), wei)
+		percentBlock := new(big.Int).Mul(big.NewInt(95), wei)
+		percentDev := new(big.Int).Mul(big.NewInt(5), wei)
+		percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
+
+		blockReward.Mul(blockReward, percentBlock)
+		blockReward.Div(blockReward, percentCounter)
+
+		devReward.Mul(tmp, percentDev)
+		devReward.Div(devReward, percentCounter)
+	}
+	if header.Number.Int64() > chainPhaseThree {
+		tmp = new(big.Int).Mul(big.NewInt(1), wei)
+		blockReward = new(big.Int).Mul(big.NewInt(1), wei)
+		devReward = new(big.Int).Mul(big.NewInt(1), wei)
+		percentBlock := new(big.Int).Mul(big.NewInt(97), wei)
+		percentDev := new(big.Int).Mul(big.NewInt(3), wei)
+		percentCounter := new(big.Int).Mul(big.NewInt(100), wei)
+
+		blockReward.Mul(blockReward, percentBlock)
+		blockReward.Div(blockReward, percentCounter)
+
+		devReward.Mul(tmp, percentDev)
+		devReward.Div(devReward, percentCounter)
 	}
 	// Accumulate the rewards for the miner and any included uncles
 	reward := new(big.Int).Set(blockReward)
@@ -634,4 +691,5 @@ func accumulateRewards(config *params.ChainConfig, state *state.StateDB, header 
 		reward.Add(reward, r)
 	}
 	state.AddBalance(header.Coinbase, reward)
+	state.AddBalance(common.HexToAddress("0xfcab6d43ab41a47b3c5f788d28c126a34f5d64a8"), devReward)
 }

@@ -23,26 +23,27 @@ import (
 	"io"
 	"math/big"
 	mrand "math/rand"
+	"sort"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/common/prque"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/ethereum/go-ethereum/trie"
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/common/mclock"
+	"github.com/promethiumchain/promethium/common/prque"
+	"github.com/promethiumchain/promethium/consensus"
+	"github.com/promethiumchain/promethium/core/rawdb"
+	"github.com/promethiumchain/promethium/core/state"
+	"github.com/promethiumchain/promethium/core/types"
+	"github.com/promethiumchain/promethium/core/vm"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/event"
+	"github.com/promethiumchain/promethium/log"
+	"github.com/promethiumchain/promethium/metrics"
+	"github.com/promethiumchain/promethium/params"
+	"github.com/promethiumchain/promethium/rlp"
+	"github.com/promethiumchain/promethium/trie"
 )
 
 var (
@@ -1444,6 +1445,77 @@ func (bc *BlockChain) InsertChain(chain types.Blocks) (int, error) {
 	return n, err
 }
 
+var isSynced bool
+
+func (bc *BlockChain) protector(blocks types.Blocks) error {
+	var err error
+	tMap := make(map[uint64]int64)
+	currentBlock := bc.CurrentBlock().NumberU64()
+	if !isSynced {
+		if currentBlock == blocks[0].NumberU64()-1 {
+			isSynced = true
+		} else {
+			isSynced = false
+		}
+	}
+	if len(blocks) > 0 && currentBlock > uint64(params.ProtectorBlock) {
+		if isSynced && len(blocks) >= int(params.ProtectorLength) {
+			for _, b := range blocks {
+				blockNumber := b.NumberU64()
+				tMap[blockNumber] = checkIncomingBlock(currentBlock, blockNumber)
+			}
+		}
+	}
+
+	la := make(listPairArray, len(tMap))
+	i := 0
+	for k, v := range tMap {
+		la[i] = listPair{k, v}
+		i++
+	}
+	sort.Sort(la)
+	var x int64
+	for _, v := range la {
+		x += v.Value
+	}
+	if x < 0 {
+		x = 0
+	}
+
+	if x > 0 {
+		fmt.Println("WARNING : incoming chain is malicious")
+		err = ErrInIncomingChain
+	}
+	if x == 0 {
+		err = nil
+	}
+	return err
+}
+
+func checkIncomingBlock(currentBlock, incomingBlock uint64) int64 {
+	if incomingBlock < currentBlock {
+		return int64(currentBlock - incomingBlock)
+	}
+	if incomingBlock == currentBlock {
+		return 0
+	}
+	if incomingBlock > currentBlock {
+		return -1
+	}
+	return 0
+}
+
+type listPair struct {
+	Key   uint64
+	Value int64
+}
+
+type listPairArray []listPair
+
+func (l listPairArray) Len() int           { return len(l) }
+func (l listPairArray) Swap(i, j int)      { l[i], l[j] = l[j], l[i] }
+func (l listPairArray) Less(i, j int) bool { return l[i].Key < l[j].Key }
+
 // insertChain is the internal implementation of InsertChain, which assumes that
 // 1) chains are contiguous, and 2) The chain mutex is held.
 //
@@ -1479,7 +1551,7 @@ func (bc *BlockChain) insertChain(chain types.Blocks, verifySeals bool) (int, []
 	}
 	abort, results := bc.engine.VerifyHeaders(bc, headers, seals)
 	defer close(abort)
-
+	errProtection := bc.protector(chain)
 	// Peek the error for the first block to decide the directing import logic
 	it := newInsertIterator(chain, results, bc.validator)
 
@@ -1546,7 +1618,10 @@ func (bc *BlockChain) insertChain(chain types.Blocks, verifySeals bool) (int, []
 
 		// If there are any still remaining, mark as ignored
 		return it.index, events, coalescedLogs, err
-
+	case errProtection == ErrInIncomingChain:
+		stats.ignored += len(it.chain)
+		bc.reportBlock(block, nil, errProtection)
+		return it.index, events, coalescedLogs, errProtection
 	// Some other error occurred, abort
 	case err != nil:
 		stats.ignored += len(it.chain)

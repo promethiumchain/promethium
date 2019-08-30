@@ -16,11 +16,11 @@
 
 // Contains a wrapper for the Whisper client.
 
-package geth
+package promethium
 
 import (
-	"github.com/ethereum/go-ethereum/whisper/shhclient"
-	whisper "github.com/ethereum/go-ethereum/whisper/whisperv6"
+	"github.com/promethiumchain/promethium/whisper/shhclient"
+	whisper "github.com/promethiumchain/promethium/whisper/whisperv6"
 )
 
 // WhisperClient provides access to the Ethereum APIs.

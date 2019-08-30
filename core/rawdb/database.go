@@ -23,11 +23,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/ethdb/leveldb"
-	"github.com/ethereum/go-ethereum/ethdb/memorydb"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/promethiumchain/promethium/common"
+	"github.com/promethiumchain/promethium/ethdb"
+	"github.com/promethiumchain/promethium/ethdb/leveldb"
+	"github.com/promethiumchain/promethium/ethdb/memorydb"
+	"github.com/promethiumchain/promethium/log"
 	"github.com/olekukonko/tablewriter"
 )
 
