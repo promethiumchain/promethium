@@ -288,7 +288,7 @@ func (c *Config) NodeName() string {
 	name := c.name()
 	// Backwards compatibility: previous versions used title-cased "Geth", keep that.
 	if name == "promethium" || name == "promethium-testnet" {
-		name = "Geth"
+		name = "Promethium"
 	}
 	if c.UserIdent != "" {
 		name += "/" + c.UserIdent
