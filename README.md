@@ -1,4 +1,4 @@
-## Go Ethereum
+## Promethium
 
 Official Golang implementation of the Ethereum protocol.
 
