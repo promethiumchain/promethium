@@ -195,30 +195,10 @@ func CompletePass(data []byte, indexes []int) (*big.Int, error) {
 		fmt.Println(errE)
 		return nil, errE
 	}
-	// fmt.Println("")
-	// fmt.Println("printing passes values")
-	// fmt.Println("pass a : ", passA)
-	// fmt.Println("pass b : ", passB)
-	// fmt.Println("pass c : ", passC)
-	// fmt.Println("pass d : ", passD)
-	// fmt.Println("pass e : ", passE)
+
 	finalHash := CalcFinalHash(passA, passB, passC, passD, passE)
-	// fmt.Println("final big number : ", finalHash)
+
 	return finalHash, nil
-}
-
-// ConstractDiffString constracts a new diff string
-func ConstractDiffString(difflevel int) string {
-	var diffString string
-	var data []string
-	for i := 1; i < difflevel+1; i++ {
-		e := i % 10
-		d := strconv.Itoa(e)
-
-		data = append(data, d)
-	}
-	diffString = strings.Join(data, "")
-	return diffString
 }
 
 // GetLeadingMatchingChars returns the number of leading matching chars in a string
