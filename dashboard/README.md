@@ -1,6 +1,6 @@
-## Go Ethereum Dashboard
+## Go Promethium Dashboard
 
-The dashboard is a data visualizer integrated into promethium, intended to collect and visualize useful information of an Ethereum node. It consists of two parts:
+The dashboard is a data visualizer integrated into promethium, intended to collect and visualize useful information of an Promethium node. It consists of two parts:
 
 * The client visualizes the collected data.
 * The server collects the data, and updates the clients.

@@ -32,7 +32,7 @@ import (
 )
 
 // alethGenesisSpec represents the genesis specification format used by the
-// C++ Ethereum implementation.
+// C++ Promethium implementation.
 type alethGenesisSpec struct {
 	SealEngine string `json:"sealEngine"`
 	Params     struct {
@@ -250,7 +250,7 @@ type parityChainSpec struct {
 
 	Genesis struct {
 		Seal struct {
-			Ethereum struct {
+			Promethium struct {
 				Nonce   hexutil.Bytes `json:"nonce"`
 				MixHash hexutil.Bytes `json:"mixHash"`
 			} `json:"ethereum"`
@@ -365,10 +365,10 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 	// Disable this one
 	spec.Params.EIP98Transition = math.MaxInt64
 
-	spec.Genesis.Seal.Ethereum.Nonce = (hexutil.Bytes)(make([]byte, 8))
-	binary.LittleEndian.PutUint64(spec.Genesis.Seal.Ethereum.Nonce[:], genesis.Nonce)
+	spec.Genesis.Seal.Promethium.Nonce = (hexutil.Bytes)(make([]byte, 8))
+	binary.LittleEndian.PutUint64(spec.Genesis.Seal.Promethium.Nonce[:], genesis.Nonce)
 
-	spec.Genesis.Seal.Ethereum.MixHash = (hexutil.Bytes)(genesis.Mixhash[:])
+	spec.Genesis.Seal.Promethium.MixHash = (hexutil.Bytes)(genesis.Mixhash[:])
 	spec.Genesis.Difficulty = (*hexutil.Big)(genesis.Difficulty)
 	spec.Genesis.Author = genesis.Coinbase
 	spec.Genesis.Timestamp = (hexutil.Uint64)(genesis.Timestamp)
@@ -452,7 +452,7 @@ func (spec *parityChainSpec) setConstantinopleFix(num *big.Int) {
 }
 
 // pyEthereumGenesisSpec represents the genesis specification format used by the
-// Python Ethereum implementation.
+// Python Promethium implementation.
 type pyEthereumGenesisSpec struct {
 	Nonce      hexutil.Bytes     `json:"nonce"`
 	Timestamp  hexutil.Uint64    `json:"timestamp"`

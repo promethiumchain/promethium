@@ -37,7 +37,7 @@ func (e ethEntry) ENRKey() string {
 	return "eth"
 }
 
-func (eth *Ethereum) startEthEntryUpdate(ln *enode.LocalNode) {
+func (eth *Promethium) startEthEntryUpdate(ln *enode.LocalNode) {
 	var newHead = make(chan core.ChainHeadEvent, 10)
 	sub := eth.blockchain.SubscribeChainHeadEvent(newHead)
 
@@ -56,6 +56,6 @@ func (eth *Ethereum) startEthEntryUpdate(ln *enode.LocalNode) {
 	}()
 }
 
-func (eth *Ethereum) currentEthEntry() *ethEntry {
+func (eth *Promethium) currentEthEntry() *ethEntry {
 	return &ethEntry{ForkID: forkid.NewID(eth.blockchain)}
 }

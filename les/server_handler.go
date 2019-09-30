@@ -109,7 +109,7 @@ func (h *serverHandler) handle(p *peer) error {
 	if !h.synced() {
 		return p2p.DiscRequested
 	}
-	p.Log().Debug("Light Ethereum peer connected", "name", p.Name())
+	p.Log().Debug("Light Promethium peer connected", "name", p.Name())
 
 	// Execute the LES handshake
 	var (
@@ -119,14 +119,14 @@ func (h *serverHandler) handle(p *peer) error {
 		td     = h.blockchain.GetTd(hash, number)
 	)
 	if err := p.Handshake(td, hash, number, h.blockchain.Genesis().Hash(), h.server); err != nil {
-		p.Log().Debug("Light Ethereum handshake failed", "err", err)
+		p.Log().Debug("Light Promethium handshake failed", "err", err)
 		return err
 	}
 	defer p.fcClient.Disconnect()
 
 	// Register the peer locally
 	if err := h.server.peers.Register(p); err != nil {
-		p.Log().Error("Light Ethereum peer registration failed", "err", err)
+		p.Log().Error("Light Promethium peer registration failed", "err", err)
 		return err
 	}
 	clientConnectionGauge.Update(int64(h.server.peers.Len()))
@@ -154,7 +154,7 @@ func (h *serverHandler) handle(p *peer) error {
 		default:
 		}
 		if err := h.handleMsg(p); err != nil {
-			p.Log().Debug("Light Ethereum message handling failed", "err", err)
+			p.Log().Debug("Light Promethium message handling failed", "err", err)
 			return err
 		}
 	}
@@ -168,7 +168,7 @@ func (h *serverHandler) handleMsg(p *peer) error {
 	if err != nil {
 		return err
 	}
-	p.Log().Trace("Light Ethereum message arrived", "code", msg.Code, "bytes", msg.Size)
+	p.Log().Trace("Light Promethium message arrived", "code", msg.Code, "bytes", msg.Size)
 
 	// Discard large message which exceeds the limitation.
 	if msg.Size > ProtocolMaxMsgSize {

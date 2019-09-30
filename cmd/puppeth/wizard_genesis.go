@@ -256,7 +256,7 @@ func (w *wizard) manageGenesis() {
 		}
 		log.Info("Saved native genesis chain spec", "path", gethJson)
 
-		// Export the genesis spec used by Aleth (formerly C++ Ethereum)
+		// Export the genesis spec used by Aleth (formerly C++ Promethium)
 		if spec, err := newAlethGenesisSpec(w.network, w.conf.Genesis); err != nil {
 			log.Error("Failed to create Aleth chain spec", "err", err)
 		} else {

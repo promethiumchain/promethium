@@ -70,7 +70,7 @@ class Header extends Component<Props> {
 						<FontAwesomeIcon icon={faBars} />
 					</IconButton>
 					<Typography type='title' color='inherit' noWrap className={classes.title}>
-						Go Ethereum Dashboard
+						Go Promethium Dashboard
 					</Typography>
 				</Toolbar>
 			</AppBar>

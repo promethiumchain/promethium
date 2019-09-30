@@ -54,7 +54,7 @@ type LesServer struct {
 	threadsBusy  int    // Request serving threads count when system is busy(block insertion).
 }
 
-func NewLesServer(e *eth.Ethereum, config *eth.Config) (*LesServer, error) {
+func NewLesServer(e *eth.Promethium, config *eth.Config) (*LesServer, error) {
 	// Collect les protocol version information supported by local node.
 	lesTopics := make([]discv5.Topic, len(AdvertiseProtocolVersions))
 	for i, pv := range AdvertiseProtocolVersions {

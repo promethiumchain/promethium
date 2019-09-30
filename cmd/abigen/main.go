@@ -54,11 +54,11 @@ var (
 	// Flags needed by abigen
 	abiFlag = cli.StringFlag{
 		Name:  "abi",
-		Usage: "Path to the Ethereum contract ABI json to bind, - for STDIN",
+		Usage: "Path to the Promethium contract ABI json to bind, - for STDIN",
 	}
 	binFlag = cli.StringFlag{
 		Name:  "bin",
-		Usage: "Path to the Ethereum contract bytecode (generate deploy method)",
+		Usage: "Path to the Promethium contract bytecode (generate deploy method)",
 	}
 	typeFlag = cli.StringFlag{
 		Name:  "type",
@@ -70,7 +70,7 @@ var (
 	}
 	solFlag = cli.StringFlag{
 		Name:  "sol",
-		Usage: "Path to the Ethereum contract Solidity source to build and bind",
+		Usage: "Path to the Promethium contract Solidity source to build and bind",
 	}
 	solcFlag = cli.StringFlag{
 		Name:  "solc",
@@ -79,7 +79,7 @@ var (
 	}
 	vyFlag = cli.StringFlag{
 		Name:  "vy",
-		Usage: "Path to the Ethereum contract Vyper source to build and bind",
+		Usage: "Path to the Promethium contract Vyper source to build and bind",
 	}
 	vyperFlag = cli.StringFlag{
 		Name:  "vyper",

@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package les implements the Light Ethereum Subprotocol.
+// Package les implements the Light Promethium Subprotocol.
 package les
 
 import (
@@ -246,7 +246,7 @@ func (s *LightEthereum) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines used by the
-// Ethereum protocol.
+// Promethium protocol.
 func (s *LightEthereum) Stop() error {
 	close(s.closeCh)
 	s.peers.Close()

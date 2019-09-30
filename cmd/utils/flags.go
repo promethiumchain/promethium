@@ -1511,7 +1511,7 @@ func SetDashboardConfig(ctx *cli.Context, cfg *dashboard.Config) {
 	cfg.Refresh = ctx.GlobalDuration(DashboardRefreshFlag.Name)
 }
 
-// RegisterEthService adds an Ethereum client to the stack.
+// RegisterEthService adds an Promethium client to the stack.
 func RegisterEthService(stack *node.Node, cfg *eth.Config) {
 	var err error
 	if cfg.SyncMode == downloader.LightSync {
@@ -1529,7 +1529,7 @@ func RegisterEthService(stack *node.Node, cfg *eth.Config) {
 		})
 	}
 	if err != nil {
-		Fatalf("Failed to register the Ethereum service: %v", err)
+		Fatalf("Failed to register the Promethium service: %v", err)
 	}
 }
 
@@ -1549,12 +1549,12 @@ func RegisterShhService(stack *node.Node, cfg *whisper.Config) {
 	}
 }
 
-// RegisterEthStatsService configures the Ethereum Stats daemon and adds it to
+// RegisterEthStatsService configures the Promethium Stats daemon and adds it to
 // the given node.
 func RegisterEthStatsService(stack *node.Node, url string) {
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		// Retrieve both eth and les services
-		var ethServ *eth.Ethereum
+		var ethServ *eth.Promethium
 		ctx.Service(&ethServ)
 
 		var lesServ *les.LightEthereum
@@ -1563,7 +1563,7 @@ func RegisterEthStatsService(stack *node.Node, url string) {
 		// Let ethstats use whichever is not nil
 		return ethstats.New(url, ethServ, lesServ)
 	}); err != nil {
-		Fatalf("Failed to register the Ethereum Stats service: %v", err)
+		Fatalf("Failed to register the Promethium Stats service: %v", err)
 	}
 }
 
@@ -1571,7 +1571,7 @@ func RegisterEthStatsService(stack *node.Node, url string) {
 func RegisterGraphQLService(stack *node.Node, endpoint string, cors, vhosts []string, timeouts rpc.HTTPTimeouts) {
 	if err := stack.Register(func(ctx *node.ServiceContext) (node.Service, error) {
 		// Try to construct the GraphQL service backed by a full node
-		var ethServ *eth.Ethereum
+		var ethServ *eth.Promethium
 		if err := ctx.Service(&ethServ); err == nil {
 			return graphql.New(ethServ.APIBackend, endpoint, cors, vhosts, timeouts)
 		}
@@ -1581,7 +1581,7 @@ func RegisterGraphQLService(stack *node.Node, endpoint string, cors, vhosts []st
 			return graphql.New(lesServ.ApiBackend, endpoint, cors, vhosts, timeouts)
 		}
 		// Well, this should not have happened, bail out
-		return nil, errors.New("no Ethereum service")
+		return nil, errors.New("no Promethium service")
 	}); err != nil {
 		Fatalf("Failed to register the GraphQL service: %v", err)
 	}

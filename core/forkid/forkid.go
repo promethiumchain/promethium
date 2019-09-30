@@ -50,7 +50,7 @@ type ID struct {
 	Next uint64  // Block number of the next upcoming fork, or 0 if no forks are known
 }
 
-// NewID calculates the Ethereum fork ID from the chain config and head.
+// NewID calculates the Promethium fork ID from the chain config and head.
 func NewID(chain *core.BlockChain) ID {
 	return newID(
 		chain.Config(),

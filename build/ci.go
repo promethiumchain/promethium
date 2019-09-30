@@ -86,23 +86,23 @@ var (
 	debExecutables = []debExecutable{
 		{
 			BinaryName:  "abigen",
-			Description: "Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages.",
+			Description: "Source code generator to convert Promethium contract definitions into easy to use, compile-time type-safe Go packages.",
 		},
 		{
 			BinaryName:  "bootnode",
-			Description: "Ethereum bootnode.",
+			Description: "Promethium bootnode.",
 		},
 		{
 			BinaryName:  "evm",
-			Description: "Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
+			Description: "Developer utility version of the EVM (Promethium Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode.",
 		},
 		{
 			BinaryName:  "promethium",
-			Description: "Ethereum CLI client.",
+			Description: "Promethium CLI client.",
 		},
 		{
 			BinaryName:  "puppeth",
-			Description: "Ethereum private network manager.",
+			Description: "Promethium private network manager.",
 		},
 		{
 			BinaryName:  "rlpdump",
@@ -110,11 +110,11 @@ var (
 		},
 		{
 			BinaryName:  "wnode",
-			Description: "Ethereum Whisper diagnostic tool",
+			Description: "Promethium Whisper diagnostic tool",
 		},
 		{
 			BinaryName:  "clef",
-			Description: "Ethereum account management tool.",
+			Description: "Promethium account management tool.",
 		},
 	}
 
@@ -595,7 +595,7 @@ func (d debExecutable) Package() string {
 func newDebMetadata(distro, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	if author == "" {
 		// No signing key, use default author.
-		author = "Ethereum Builds <fjl@ethereum.org>"
+		author = "Promethium Builds <fjl@ethereum.org>"
 	}
 	return debMetadata{
 		PackageName: name,

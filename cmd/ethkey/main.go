@@ -35,7 +35,7 @@ var gitDate = ""
 var app *cli.App
 
 func init() {
-	app = utils.NewApp(gitCommit, gitDate, "an Ethereum key manager")
+	app = utils.NewApp(gitCommit, gitDate, "an Promethium key manager")
 	app.Commands = []cli.Command{
 		commandGenerate,
 		commandInspect,

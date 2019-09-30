@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/ethereum/go-ethereum
+go_import_path: github.com/promethiumchain/promethium
 sudo: false
 jobs:
   include:
@@ -77,7 +77,7 @@ jobs:
             - python-paramiko
       script:
         - echo '|1|7SiYPr9xl3uctzovOTj4gMwAC1M=|t6ReES75Bo/PxlOPJ6/GsGbTrM0= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0aKz5UTUndYgIGG7dQBV+HaeuEZJ2xPHo2DS2iSKvUL4xNMSAY4UguNW+pX56nAQmZKIZZ8MaEvSj6zMEDiq6HFfn5JcTlM80UwlnyKe8B8p7Nk06PPQLrnmQt5fh0HmEcZx+JU9TZsfCHPnX7MNz4ELfZE6cFsclClrKim3BHUIGq//t93DllB+h4O9LHjEUsQ1Sr63irDLSutkLJD6RXchjROXkNirlcNVHH/jwLWR5RcYilNX7S5bIkK8NlWPjsn/8Ua5O7I9/YoE97PpO6i73DTGLh5H9JN/SITwCKBkgSDWUt61uPK3Y11Gty7o2lWsBjhBUm2Y38CBsoGmBw==' >> ~/.ssh/known_hosts
-        - go run build/ci.go debsrc -upload ethereum/ethereum -sftp-user geth-ci -signer "Go Ethereum Linux Builder <geth-ci@ethereum.org>"
+        - go run build/ci.go debsrc -upload ethereum/ethereum -sftp-user geth-ci -signer "Go Promethium Linux Builder <geth-ci@ethereum.org>"
 
     # This builder does the Linux Azure uploads
     - stage: build
@@ -177,8 +177,8 @@ jobs:
         - unzip -q android-ndk-r19b.zip && rm android-ndk-r19b.zip
         - mv android-ndk-r19b $ANDROID_HOME/ndk-bundle
 
-        - mkdir -p $GOPATH/src/github.com/ethereum
-        - ln -s `pwd` $GOPATH/src/github.com/ethereum/go-ethereum
+        - mkdir -p $GOPATH/src/github.com/promethiumchain
+        - ln -s `pwd` $GOPATH/src/github.com/promethiumchain/promethium
         - go run build/ci.go aar -signer ANDROID_SIGNING_KEY -deploy https://oss.sonatype.org -upload gethstore/builds
 
     # This builder does the OSX Azure, iOS CocoaPods and iOS Azure uploads

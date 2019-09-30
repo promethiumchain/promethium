@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.authors      = { {{range .Contributors}}
 		'{{.Name}}' => '{{.Email}}',{{end}}
 	}
-  spec.summary      = 'iOS Ethereum Client'
+  spec.summary      = 'iOS Promethium Client'
   spec.source       = { :git => 'https://github.com/promethiumchain/promethium.git', :commit => '{{.Commit}}' }
 
 	spec.platform = :ios

@@ -96,7 +96,7 @@ func main() {
 	time.Sleep(3 * time.Second)
 
 	for _, node := range nodes {
-		var ethereum *eth.Ethereum
+		var ethereum *eth.Promethium
 		if err := node.Service(&ethereum); err != nil {
 			panic(err)
 		}
@@ -112,7 +112,7 @@ func main() {
 		index := rand.Intn(len(faucets))
 
 		// Fetch the accessor for the relevant signer
-		var ethereum *eth.Ethereum
+		var ethereum *eth.Promethium
 		if err := nodes[index%len(nodes)].Service(&ethereum); err != nil {
 			panic(err)
 		}
@@ -171,7 +171,7 @@ func makeGenesis(faucets []*ecdsa.PrivateKey, sealers []*ecdsa.PrivateKey) *core
 }
 
 func makeSealer(genesis *core.Genesis) (*node.Node, error) {
-	// Define the basic configurations for the Ethereum node
+	// Define the basic configurations for the Promethium node
 	datadir, _ := ioutil.TempDir("", "")
 
 	config := &node.Config{
@@ -185,7 +185,7 @@ func makeSealer(genesis *core.Genesis) (*node.Node, error) {
 		},
 		NoUSB: true,
 	}
-	// Start the node and configure a full Ethereum node on it
+	// Start the node and configure a full Promethium node on it
 	stack, err := node.New(config)
 	if err != nil {
 		return nil, err

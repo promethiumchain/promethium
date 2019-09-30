@@ -1,6 +1,6 @@
 ## Promethium
 
-Official Golang implementation of the Ethereum protocol.
+Official Golang implementation of the Promethium protocol.
 
 [![API Reference](
 https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
@@ -14,7 +14,7 @@ archives are published at https://promethium.ethereum.org/downloads/.
 
 ## Building the source
 
-For prerequisites and detailed build instructions please read the [Installation Instructions](https://github.com/promethiumchain/promethium/wiki/Building-Ethereum) on the wiki.
+For prerequisites and detailed build instructions please read the [Installation Instructions](https://github.com/promethiumchain/promethium/wiki/Building-Promethium) on the wiki.
 
 Building `promethium` requires both a Go (version 1.10 or later) and a C compiler. You can install
 them using your favourite package manager. Once the dependencies are installed, run
@@ -36,13 +36,13 @@ directory.
 
 |    Command    | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | :-----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  **`promethium`**   | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default), archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `promethium --help` and the [CLI Wiki page](https://github.com/promethiumchain/promethium/wiki/Command-Line-Options) for command line options.          |
-|   `abigen`    | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However, it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/promethiumchain/promethium/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
-|  `bootnode`   | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks.                                                                                                                                                                                                                                                                 |
-|     `evm`     | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`).                                                                                                                                                                                                                                                                     |
-| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereum/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereum/rpc-tests/blob/master/README.md) for details.                                                                                                                                                                                                     |
-|   `rlpdump`   | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereum/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user-friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`).                                                                                                                                                                                                                                 |
-|   `puppeth`   | a CLI wizard that aids in creating a new Ethereum network.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  **`promethium`**   | Our main Promethium CLI client. It is the entry point into the Promethium network (main-, test- or private net), capable of running as a full node (default), archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Promethium network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `promethium --help` and the [CLI Wiki page](https://github.com/promethiumchain/promethium/wiki/Command-Line-Options) for command line options.          |
+|   `abigen`    | Source code generator to convert Promethium contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Promethium contract ABIs](https://github.com/ethereum/wiki/wiki/Promethium-Contract-ABI) with expanded functionality if the contract bytecode is also available. However, it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/promethiumchain/promethium/wiki/Native-DApps:-Go-bindings-to-Promethium-contracts) wiki page for details. |
+|  `bootnode`   | Stripped down version of our Promethium client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks.                                                                                                                                                                                                                                                                 |
+|     `evm`     | Developer utility version of the EVM (Promethium Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`).                                                                                                                                                                                                                                                                     |
+| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereum/rpc-tests) test suite which validates baseline conformity to the [Promethium JSON RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereum/rpc-tests/blob/master/README.md) for details.                                                                                                                                                                                                     |
+|   `rlpdump`   | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereum/wiki/wiki/RLP)) dumps (data encoding used by the Promethium protocol both network as well as consensus wise) to user-friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`).                                                                                                                                                                                                                                 |
+|   `puppeth`   | a CLI wizard that aids in creating a new Promethium network.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 ## Running `promethium`
 
@@ -51,9 +51,9 @@ Going through all the possible command line flags is out of scope here (please c
 but we've enumerated a few common parameter combos to get you up to speed quickly
 on how you can run your own `promethium` instance.
 
-### Full node on the main Ethereum network
+### Full node on the main Promethium network
 
-By far the most common scenario is people wanting to simply interact with the Ethereum
+By far the most common scenario is people wanting to simply interact with the Promethium
 network: create accounts; transfer funds; deploy and interact with contracts. For this
 particular use-case the user doesn't care about years-old historical data, so we can
 fast-sync quickly to the current state of the network. To do so:
@@ -65,16 +65,16 @@ $ promethium console
 This command will:
  * Start `promethium` in fast sync mode (default, can be changed with the `--syncmode` flag),
    causing it to download more data in exchange for avoiding processing the entire history
-   of the Ethereum network, which is very CPU intensive.
+   of the Promethium network, which is very CPU intensive.
  * Start up `promethium`'s built-in interactive [JavaScript console](https://github.com/promethiumchain/promethium/wiki/JavaScript-Console),
    (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/ethereum/wiki/wiki/JavaScript-API)
    as well as `promethium`'s own [management APIs](https://github.com/promethiumchain/promethium/wiki/Management-APIs).
    This tool is optional and if you leave it out you can always attach to an already running
    `promethium` instance with `promethium attach`.
 
-### A Full node on the Ethereum test network
+### A Full node on the Promethium test network
 
-Transitioning towards developers, if you'd like to play around with creating Ethereum
+Transitioning towards developers, if you'd like to play around with creating Promethium
 contracts, you almost certainly would like to do that without any real money involved until
 you get the hang of the entire system. In other words, instead of attaching to the main
 network, you want to join the **test** network with your node, which is fully equivalent to
@@ -96,7 +96,7 @@ Specifying the `--testnet` flag, however, will reconfigure your `promethium` ins
    production node endpoint by default. E.g.
    `promethium attach <datadir>/testnet/promethium.ipc`. Windows users are not affected by
    this.
- * Instead of connecting the main Ethereum network, the client will connect to the test
+ * Instead of connecting the main Promethium network, the client will connect to the test
    network, which uses different P2P bootnodes, different network IDs and genesis states.
 
 *Note: Although there are some internal protective measures to prevent transactions from
@@ -109,7 +109,7 @@ accounts available between them.*
 
 The above test network is a cross-client one based on the ethash proof-of-work consensus
 algorithm. As such, it has certain extra overhead and is more susceptible to reorganization
-attacks due to the network's low difficulty/security. Go Ethereum also supports connecting
+attacks due to the network's low difficulty/security. Go Promethium also supports connecting
 to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io)
 (operated by members of the community). This network is lighter, more secure, but is only
 supported by go-ethereum.
@@ -138,7 +138,7 @@ $ promethium --your-favourite-flags dumpconfig
 
 #### Docker quick start
 
-One of the quickest ways to get Ethereum up and running on your machine is by using
+One of the quickest ways to get Promethium up and running on your machine is by using
 Docker:
 
 ```shell
@@ -159,7 +159,7 @@ accessible from the outside.
 ### Programmatically interfacing `promethium` nodes
 
 As a developer, sooner rather than later you'll want to start interacting with `promethium` and the
-Ethereum network via your own programs and not manually through the console. To aid
+Promethium network via your own programs and not manually through the console. To aid
 this, `promethium` has built-in support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereum/wiki/wiki/JSON-RPC)
 and [`promethium` specific APIs](https://github.com/promethiumchain/promethium/wiki/Management-APIs)).
 These can be exposed via HTTP, WebSockets and IPC (UNIX sockets on UNIX based
@@ -193,7 +193,7 @@ can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based
 transport before doing so! Hackers on the internet are actively trying to subvert
-Ethereum nodes with exposed APIs! Further, all browser tabs can access locally
+Promethium nodes with exposed APIs! Further, all browser tabs can access locally
 running web servers, so malicious web pages could try to subvert locally available
 APIs!**
 
@@ -291,7 +291,7 @@ also need to configure a miner to process transactions and create new blocks for
 
 #### Running a private miner
 
-Mining on the public Ethereum network is a complex task as it's only feasible using GPUs,
+Mining on the public Promethium network is a complex task as it's only feasible using GPUs,
 requiring an OpenCL or CUDA enabled `ethminer` instance. For information on such a
 setup, please consult the [EtherMining subreddit](https://www.reddit.com/r/EtherMining/)
 and the [Genoil miner](https://github.com/Genoil/cpp-ethereum) repository.
