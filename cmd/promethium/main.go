@@ -1,18 +1,18 @@
-// Copyright 2014 The go-ethereum Authors
-// This file is part of go-ethereum.
+// Copyright 2014 The promethium Authors
+// This file is part of promethium.
 //
-// go-ethereum is free software: you can redistribute it and/or modify
+// promethium is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-ethereum is distributed in the hope that it will be useful,
+// promethium is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-ethereum. If not, see <http://www.gnu.org/licenses/>.
+// along with promethium. If not, see <http://www.gnu.org/licenses/>.
 
 // promethium is the official command-line client for Promethium.
 package main
@@ -54,7 +54,7 @@ var (
 	gitCommit = ""
 	gitDate   = ""
 	// The app that holds all commands and flags.
-	app = utils.NewApp(gitCommit, gitDate, "the go-ethereum command line interface")
+	app = utils.NewApp(gitCommit, gitDate, "the promethium command line interface")
 	// flags that configure the node
 	nodeFlags = []cli.Flag{
 		utils.IdentityFlag,
@@ -196,7 +196,7 @@ func init() {
 	// Initialize the CLI app and start Geth
 	app.Action = promethium
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2013-2019 The go-ethereum Authors"
+	app.Copyright = "Copyright 2013-2019 The promethium Authors"
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,
