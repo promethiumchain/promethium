@@ -11,7 +11,7 @@ jobs:
       env:
         - lint
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       script:
         - go run build/ci.go lint
 
@@ -65,7 +65,7 @@ jobs:
       env:
         - ubuntu-ppa
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       addons:
         apt:
           packages:
@@ -77,7 +77,7 @@ jobs:
             - python-paramiko
       script:
         - echo '|1|7SiYPr9xl3uctzovOTj4gMwAC1M=|t6ReES75Bo/PxlOPJ6/GsGbTrM0= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0aKz5UTUndYgIGG7dQBV+HaeuEZJ2xPHo2DS2iSKvUL4xNMSAY4UguNW+pX56nAQmZKIZZ8MaEvSj6zMEDiq6HFfn5JcTlM80UwlnyKe8B8p7Nk06PPQLrnmQt5fh0HmEcZx+JU9TZsfCHPnX7MNz4ELfZE6cFsclClrKim3BHUIGq//t93DllB+h4O9LHjEUsQ1Sr63irDLSutkLJD6RXchjROXkNirlcNVHH/jwLWR5RcYilNX7S5bIkK8NlWPjsn/8Ua5O7I9/YoE97PpO6i73DTGLh5H9JN/SITwCKBkgSDWUt61uPK3Y11Gty7o2lWsBjhBUm2Y38CBsoGmBw==' >> ~/.ssh/known_hosts
-        - go run build/ci.go debsrc -upload ethereum/ethereum -sftp-user geth-ci -signer "Go Promethium Linux Builder <geth-ci@ethereum.org>"
+        - go run build/ci.go debsrc -upload promethium/promethium -sftp-user geth-ci -signer "Go Promethium Linux Builder <geth-ci@promethium.org>"
 
     # This builder does the Linux Azure uploads
     - stage: build
@@ -89,7 +89,7 @@ jobs:
       env:
         - azure-linux
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       addons:
         apt:
           packages:
@@ -125,7 +125,7 @@ jobs:
       env:
         - azure-linux-mips
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       script:
         - go run build/ci.go xgo --alltools -- --targets=linux/mips --ldflags '-extldflags "-static"' -v
         - for bin in build/bin/*-linux-mips; do mv -f "${bin}" "${bin/-linux-mips/}"; done
@@ -165,7 +165,7 @@ jobs:
         - azure-android
         - maven-android
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       before_install:
         - curl https://dl.google.com/go/go1.12.linux-amd64.tar.gz | tar -xz
         - export PATH=`pwd`/go/bin:$PATH
@@ -191,7 +191,7 @@ jobs:
         - azure-ios
         - cocoapods-ios
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       script:
         - go run build/ci.go install
         - go run build/ci.go archive -type tar -signer OSX_SIGNING_KEY -upload gethstore/builds
@@ -220,6 +220,6 @@ jobs:
       env:
         - azure-purge
       git:
-        submodules: false # avoid cloning ethereum/tests
+        submodules: false # avoid cloning promethium/tests
       script:
         - go run build/ci.go purge -store gethstore/builds -days 14

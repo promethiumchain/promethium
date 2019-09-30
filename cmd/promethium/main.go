@@ -341,12 +341,12 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	}
 	ethClient := ethclient.NewClient(rpcClient)
 
-	// Set contract backend for ethereum service if local node
+	// Set contract backend for promethium service if local node
 	// is serving LES requests.
 	if ctx.GlobalInt(utils.LightLegacyServFlag.Name) > 0 || ctx.GlobalInt(utils.LightServeFlag.Name) > 0 {
 		var ethService *eth.Promethium
 		if err := stack.Service(&ethService); err != nil {
-			utils.Fatalf("Failed to retrieve ethereum service: %v", err)
+			utils.Fatalf("Failed to retrieve promethium service: %v", err)
 		}
 		ethService.SetContractBackend(ethClient)
 	}
@@ -355,7 +355,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	if ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
 		var lesService *les.LightEthereum
 		if err := stack.Service(&lesService); err != nil {
-			utils.Fatalf("Failed to retrieve light ethereum service: %v", err)
+			utils.Fatalf("Failed to retrieve light promethium service: %v", err)
 		}
 		lesService.SetContractBackend(ethClient)
 	}
@@ -423,8 +423,8 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		if ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
 			utils.Fatalf("Light clients do not support mining")
 		}
-		var ethereum *eth.Promethium
-		if err := stack.Service(&ethereum); err != nil {
+		var promethium *eth.Promethium
+		if err := stack.Service(&promethium); err != nil {
 			utils.Fatalf("Promethium service not running: %v", err)
 		}
 		// Set the gas price to the limits from the CLI and start mining
@@ -432,13 +432,13 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 		if ctx.IsSet(utils.MinerGasPriceFlag.Name) {
 			gasprice = utils.GlobalBig(ctx, utils.MinerGasPriceFlag.Name)
 		}
-		ethereum.TxPool().SetGasPrice(gasprice)
+		promethium.TxPool().SetGasPrice(gasprice)
 
 		threads := ctx.GlobalInt(utils.MinerLegacyThreadsFlag.Name)
 		if ctx.GlobalIsSet(utils.MinerThreadsFlag.Name) {
 			threads = ctx.GlobalInt(utils.MinerThreadsFlag.Name)
 		}
-		if err := ethereum.StartMining(threads); err != nil {
+		if err := promethium.StartMining(threads); err != nil {
 			utils.Fatalf("Failed to start mining: %v", err)
 		}
 	}

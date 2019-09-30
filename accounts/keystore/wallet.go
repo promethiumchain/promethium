@@ -19,7 +19,7 @@ package keystore
 import (
 	"math/big"
 
-	ethereum "github.com/promethiumchain/promethium"
+	promethium "github.com/promethiumchain/promethium"
 	"github.com/promethiumchain/promethium/accounts"
 	"github.com/promethiumchain/promethium/core/types"
 	"github.com/promethiumchain/promethium/crypto"
@@ -77,7 +77,7 @@ func (w *keystoreWallet) Derive(path accounts.DerivationPath, pin bool) (account
 
 // SelfDerive implements accounts.Wallet, but is a noop for plain wallets since
 // there is no notion of hierarchical account derivation for plain keystore accounts.
-func (w *keystoreWallet) SelfDerive(bases []accounts.DerivationPath, chain ethereum.ChainStateReader) {
+func (w *keystoreWallet) SelfDerive(bases []accounts.DerivationPath, chain promethium.ChainStateReader) {
 }
 
 // signHash attempts to sign the given hash with

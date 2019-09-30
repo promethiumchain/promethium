@@ -121,7 +121,7 @@ var (
 	// A debian package is created for all executables listed here.
 
 	debEthereum = debPackage{
-		Name:        "ethereum",
+		Name:        "promethium",
 		Version:     params.Version,
 		Executables: debExecutables,
 	}
@@ -462,7 +462,7 @@ func maybeSkipArchive(env build.Environment) {
 func doDebianSource(cmdline []string) {
 	var (
 		signer  = flag.String("signer", "", `Signing key name, also used as package author`)
-		upload  = flag.String("upload", "", `Where to upload the source package (usually "ethereum/ethereum")`)
+		upload  = flag.String("upload", "", `Where to upload the source package (usually "promethium/promethium")`)
 		sshUser = flag.String("sftp-user", "", `Username for SFTP upload (usually "promethium-ci")`)
 		workdir = flag.String("workdir", "", `Output directory for packages (uses temp dir if unset)`)
 		now     = time.Now()
@@ -557,7 +557,7 @@ func isUnstableBuild(env build.Environment) bool {
 }
 
 type debPackage struct {
-	Name        string          // the name of the Debian package to produce, e.g. "ethereum"
+	Name        string          // the name of the Debian package to produce, e.g. "promethium"
 	Version     string          // the clean version of the debPackage, e.g. 1.8.12, without any metadata
 	Executables []debExecutable // executables to be included in the package
 }
@@ -595,7 +595,7 @@ func (d debExecutable) Package() string {
 func newDebMetadata(distro, author string, env build.Environment, t time.Time, name string, version string, exes []debExecutable) debMetadata {
 	if author == "" {
 		// No signing key, use default author.
-		author = "Promethium Builds <fjl@ethereum.org>"
+		author = "Promethium Builds <fjl@promethium.org>"
 	}
 	return debMetadata{
 		PackageName: name,
@@ -779,7 +779,7 @@ func doAndroidArchive(cmdline []string) {
 	}
 	// Build the Android archive and Maven resources
 	build.MustRun(goTool("get", "golang.org/x/mobile/cmd/gomobile", "golang.org/x/mobile/cmd/gobind"))
-	build.MustRun(gomobileTool("bind", "-ldflags", "-s -w", "--target", "android", "--javapkg", "org.ethereum", "-v", "github.com/promethiumchain/promethium/mobile"))
+	build.MustRun(gomobileTool("bind", "-ldflags", "-s -w", "--target", "android", "--javapkg", "org.promethium", "-v", "github.com/promethiumchain/promethium/mobile"))
 
 	if *local {
 		// If we're building locally, copy bundle to build dir and skip Maven

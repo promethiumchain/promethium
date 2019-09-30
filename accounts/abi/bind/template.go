@@ -88,7 +88,7 @@ import (
 	"math/big"
 	"strings"
 
-	ethereum "github.com/promethiumchain/promethium"
+	promethium "github.com/promethiumchain/promethium"
 	"github.com/promethiumchain/promethium/accounts/abi"
 	"github.com/promethiumchain/promethium/accounts/abi/bind"
 	"github.com/promethiumchain/promethium/common"
@@ -100,7 +100,7 @@ import (
 var (
 	_ = big.NewInt
 	_ = strings.NewReader
-	_ = ethereum.NotFound
+	_ = promethium.NotFound
 	_ = abi.U256
 	_ = bind.Bind
 	_ = common.Big1
@@ -360,7 +360,7 @@ var (
 			event    string              // Event name to use for unpacking event data
 
 			logs chan types.Log        // Log channel receiving the found contract events
-			sub  ethereum.Subscription // Subscription for errors, completion and termination
+			sub  promethium.Subscription // Subscription for errors, completion and termination
 			done bool                  // Whether the subscription completed delivering logs
 			fail error                 // Occurred error to stop iteration
 		}
@@ -504,7 +504,7 @@ const tmplSourceJava = `
 
 package {{.Package}};
 
-import org.ethereum.promethium.*;
+import org.promethium.promethium.*;
 import java.util.*;
 
 {{range $contract := .Contracts}}

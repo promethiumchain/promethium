@@ -537,7 +537,7 @@ func (srv *Server) setupDiscovery() error {
 	srv.log.Debug("UDP listener up", "addr", realaddr)
 	if srv.NAT != nil {
 		if !realaddr.IP.IsLoopback() {
-			go nat.Map(srv.NAT, srv.quit, "udp", realaddr.Port, realaddr.Port, "ethereum discovery")
+			go nat.Map(srv.NAT, srv.quit, "udp", realaddr.Port, realaddr.Port, "promethium discovery")
 		}
 	}
 	srv.localnode.SetFallbackUDP(realaddr.Port)
@@ -598,7 +598,7 @@ func (srv *Server) setupListening() error {
 		if !tcp.IP.IsLoopback() && srv.NAT != nil {
 			srv.loopWG.Add(1)
 			go func() {
-				nat.Map(srv.NAT, srv.quit, "tcp", tcp.Port, tcp.Port, "ethereum p2p")
+				nat.Map(srv.NAT, srv.quit, "tcp", tcp.Port, tcp.Port, "promethium p2p")
 				srv.loopWG.Done()
 			}()
 		}

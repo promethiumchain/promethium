@@ -149,7 +149,7 @@ func (h *serverHandler) handle(p *peer) error {
 	for {
 		select {
 		case err := <-p.errCh:
-			p.Log().Debug("Failed to send light ethereum response", "err", err)
+			p.Log().Debug("Failed to send light promethium response", "err", err)
 			return err
 		default:
 		}

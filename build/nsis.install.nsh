@@ -5,7 +5,7 @@ OutFile "${OUTPUTFILE}" # set through command line arguments
 # Links for "Add/Remove Programs"
 !define HELPURL "https://github.com/promethiumchain/promethium/issues"
 !define UPDATEURL "https://github.com/promethiumchain/promethium/releases"
-!define ABOUTURL "https://github.com/promethiumchain/promethium#ethereum-go"
+!define ABOUTURL "https://github.com/promethiumchain/promethium#promethium-go"
 !define /date NOW "%Y%m%d"
 
 PageEx license
@@ -33,7 +33,7 @@ Section "Geth" GETH_IDX
   SimpleFC::AdvAddRule "Geth outgoing peers (TCP:30303)" ""  6 2 1 2147483647 1 "$INSTDIR\promethium.exe" "" "" "Promethium" "" 30303 "" ""
   SimpleFC::AdvAddRule "Geth UDP discovery (UDP:30303)" "" 17 2 1 2147483647 1 "$INSTDIR\promethium.exe" "" "" "Promethium" "" 30303 "" ""
 
-  # Set default IPC endpoint (https://github.com/ethereum/EIPs/issues/147)
+  # Set default IPC endpoint (https://github.com/promethium/EIPs/issues/147)
   ${EnvVarUpdate} $0 "PROMETHIUM_SOCKET" "R" "HKLM" "\\.\pipe\promethium.ipc"
   ${EnvVarUpdate} $0 "PROMETHIUM_SOCKET" "A" "HKLM" "\\.\pipe\promethium.ipc"
 

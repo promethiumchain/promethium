@@ -21,7 +21,7 @@ import (
 	"math/big"
 	"testing"
 
-	ethereum "github.com/promethiumchain/promethium"
+	promethium "github.com/promethiumchain/promethium"
 	"github.com/promethiumchain/promethium/accounts/abi/bind"
 	"github.com/promethiumchain/promethium/accounts/abi/bind/backends"
 	"github.com/promethiumchain/promethium/common"
@@ -47,8 +47,8 @@ func TestSimulatedBackend(t *testing.T) {
 	if isPending {
 		t.Fatal("transaction should not be pending")
 	}
-	if err != ethereum.NotFound {
-		t.Fatalf("err should be `ethereum.NotFound` but received %v", err)
+	if err != promethium.NotFound {
+		t.Fatalf("err should be `promethium.NotFound` but received %v", err)
 	}
 
 	// generate a transaction and confirm you can retrieve it

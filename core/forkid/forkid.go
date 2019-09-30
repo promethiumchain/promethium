@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the promethium library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package forkid implements EIP-2124 (https://eips.ethereum.org/EIPS/eip-2124).
+// Package forkid implements EIP-2124 (https://eips.promethium.org/EIPS/eip-2124).
 package forkid
 
 import (

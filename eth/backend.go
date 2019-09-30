@@ -273,7 +273,7 @@ func CreateConsensusEngine(ctx *node.ServiceContext, chainConfig *params.ChainCo
 	}
 }
 
-// APIs return the collection of RPC services the ethereum package offers.
+// APIs return the collection of RPC services the promethium package offers.
 // NOTE, some of these services probably need to be moved to somewhere else.
 func (s *Promethium) APIs() []rpc.API {
 	apis := ethapi.GetAPIs(s.APIBackend)

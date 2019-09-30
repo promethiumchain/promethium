@@ -1055,7 +1055,7 @@ func (r *Resolver) ProtocolVersion(ctx context.Context) (int32, error) {
 
 // SyncState represents the synchronisation status returned from the `syncing` accessor.
 type SyncState struct {
-	progress ethereum.SyncProgress
+	progress promethium.SyncProgress
 }
 
 func (s *SyncState) StartingBlock() hexutil.Uint64 {

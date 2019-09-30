@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the promethium library. If not, see <http://www.gnu.org/licenses/>.
 
-// Package ethereum defines interfaces for interacting with Promethium.
-package ethereum
+// Package promethium defines interfaces for interacting with Promethium.
+package promethium
 
 import (
 	"context"

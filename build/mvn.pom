@@ -4,7 +4,7 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.ethereum</groupId>
+  <groupId>org.promethium</groupId>
   <artifactId>promethium</artifactId>
   <version>{{.Version}}</version>
   <packaging>aar</packaging>
@@ -24,7 +24,7 @@
 
   <organization>
     <name>Promethium</name>
-    <url>https://ethereum.org</url>
+    <url>https://promethium.org</url>
   </organization>
 
   <developers>

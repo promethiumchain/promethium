@@ -120,7 +120,7 @@ var dashboardContent = `
 											<pre>promethium --networkid={{.NetworkID}} --datadir=$HOME/.{{.Network}} --cache=1024 --syncmode=full{{if .Ethstats}} --ethstats='{{.Ethstats}}'{{end}} --bootnodes={{.BootnodesFlat}}</pre>
 										</p>
 										<br/>
-										<p>You can download Geth from <a href="https://promethium.ethereum.org/downloads/" target="about:blank">https://promethium.ethereum.org/downloads/</a>.</p>
+										<p>You can download Geth from <a href="https://promethium.promethium.org/downloads/" target="about:blank">https://promethium.promethium.org/downloads/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -139,7 +139,7 @@ var dashboardContent = `
 											<pre>promethium --networkid={{.NetworkID}} --datadir=$HOME/.{{.Network}} --cache=512{{if .Ethstats}} --ethstats='{{.Ethstats}}'{{end}} --bootnodes={{.BootnodesFlat}}</pre>
 										</p>
 										<br/>
-										<p>You can download Geth from <a href="https://promethium.ethereum.org/downloads/" target="about:blank">https://promethium.ethereum.org/downloads/</a>.</p>
+										<p>You can download Geth from <a href="https://promethium.promethium.org/downloads/" target="about:blank">https://promethium.promethium.org/downloads/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -161,7 +161,7 @@ var dashboardContent = `
 											<pre>promethium --networkid={{.NetworkID}} --datadir=$HOME/.{{.Network}} --syncmode=light{{if .Ethstats}} --ethstats='{{.Ethstats}}'{{end}} --bootnodes={{.BootnodesFlat}}</pre>
 										</p>
 										<br/>
-										<p>You can download Geth from <a href="https://promethium.ethereum.org/downloads/" target="about:blank">https://promethium.ethereum.org/downloads/</a>.</p>
+										<p>You can download Geth from <a href="https://promethium.promethium.org/downloads/" target="about:blank">https://promethium.promethium.org/downloads/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -180,7 +180,7 @@ var dashboardContent = `
 											<pre>promethium --networkid={{.NetworkID}} --datadir=$HOME/.{{.Network}} --cache=16 --ethash.cachesinmem=1 --syncmode=light{{if .Ethstats}} --ethstats='{{.Ethstats}}'{{end}} --bootnodes={{.BootnodesFlat}}</pre>
 										</p>
 										<br/>
-										<p>You can download Geth from <a href="https://promethium.ethereum.org/downloads/" target="about:blank">https://promethium.ethereum.org/downloads/</a>.</p>
+										<p>You can download Geth from <a href="https://promethium.promethium.org/downloads/" target="about:blank">https://promethium.promethium.org/downloads/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -211,7 +211,7 @@ var dashboardContent = `
 											<pre>ethereumwallet --rpc $HOME/.{{.Network}}/promethium.ipc --node-networkid={{.NetworkID}} --node-datadir=$HOME/.{{.Network}}{{if .Ethstats}} --node-ethstats='{{.Ethstats}}'{{end}} --node-bootnodes={{.BootnodesFlat}}</pre>
 										<p>
 										<br/>
-										<p>You can download the Promethium Wallet from <a href="https://github.com/ethereum/mist/releases" target="about:blank">https://github.com/ethereum/mist/releases</a>.</p>
+										<p>You can download the Promethium Wallet from <a href="https://github.com/promethium/mist/releases" target="about:blank">https://github.com/promethium/mist/releases</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -232,7 +232,7 @@ var dashboardContent = `
 											<pre>mist --rpc $HOME/.{{.Network}}/promethium.ipc --node-networkid={{.NetworkID}} --node-datadir=$HOME/.{{.Network}}{{if .Ethstats}} --node-ethstats='{{.Ethstats}}'{{end}} --node-bootnodes={{.BootnodesFlat}}</pre>
 										<p>
 										<br/>
-										<p>You can download the Mist browser from <a href="https://github.com/ethereum/mist/releases" target="about:blank">https://github.com/ethereum/mist/releases</a>.</p>
+										<p>You can download the Mist browser from <a href="https://github.com/promethium/mist/releases" target="about:blank">https://github.com/promethium/mist/releases</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -259,7 +259,7 @@ var dashboardContent = `
 										<p>The stable Android archives are distributed via Maven Central, and the develop snapshots via the Sonatype repositories. Before proceeding, please ensure you have a recent version configured in your Android project. You can find details in <a href="https://github.com/promethiumchain/promethium/wiki/Mobile:-Introduction#android-archive" target="about:blank">Mobile: Introduction &ndash; Android archive</a>.
 										<p>Before connecting to the Promethium network, download the <a href="/{{.GethGenesis}}"><code>{{.GethGenesis}}</code></a> genesis json file and either store it in your Android project as a resource file you can access, or save it as a string in a variable. You're going to need to to initialize your client.</p>
 										<p>Inside your Java code you can now import the promethium archive and connect to Promethium:
-											<pre>import org.ethereum.promethium.*;</pre>
+											<pre>import org.promethium.promethium.*;</pre>
 <pre>
 Enodes bootnodes = new Enodes();{{range .Bootnodes}}
 bootnodes.append(new Enode("{{.}}"));{{end}}
@@ -333,11 +333,11 @@ try! node?.start();
 									<div class="x_content">
 										<p>C++ Promethium is the third most popular of the Promethium clients, focusing on code portability to a broad range of operating systems and hardware. The client is currently a full node with transaction processing based synchronization.</p>
 										<br/>
-										<p>To run a cpp-ethereum node, download <a href="/{{.CppGenesis}}"><code>{{.CppGenesis}}</code></a> and start the node with:
+										<p>To run a cpp-promethium node, download <a href="/{{.CppGenesis}}"><code>{{.CppGenesis}}</code></a> and start the node with:
 											<pre>eth --config {{.CppGenesis}} --datadir $HOME/.{{.Network}} --peerset "{{.CppBootnodes}}"</pre>
 										</p>
 										<br/>
-										<p>You can find cpp-ethereum at <a href="https://github.com/ethereum/cpp-ethereum/" target="about:blank">https://github.com/ethereum/cpp-ethereum/</a>.</p>
+										<p>You can find cpp-promethium at <a href="https://github.com/promethium/cpp-promethium/" target="about:blank">https://github.com/promethium/cpp-promethium/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -357,7 +357,7 @@ try! node?.start();
 											<pre>./gradlew runCustom -DgenesisFile={{.HarmonyGenesis}} -Dpeer.networkId={{.NetworkID}} -Ddatabase.dir=$HOME/.harmony/{{.Network}} {{.HarmonyBootnodes}} </pre>
 										</p>
 										<br/>
-										<p>You can find Promethium Harmony at <a href="https://github.com/ether-camp/ethereum-harmony/" target="about:blank">https://github.com/ether-camp/ethereum-harmony/</a>.</p>
+										<p>You can find Promethium Harmony at <a href="https://github.com/ether-camp/promethium-harmony/" target="about:blank">https://github.com/ether-camp/promethium-harmony/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -401,7 +401,7 @@ try! node?.start();
 											<pre>pyethapp -c eth.genesis="$(cat {{.PythonGenesis}})" -c eth.network_id={{.NetworkID}} -c data_dir=$HOME/.config/pyethapp/{{.Network}} -c discovery.bootstrap_nodes="[{{.PythonBootnodes}}]" -c eth.block.HOMESTEAD_FORK_BLKNUM={{.Homestead}} -c eth.block.ANTI_DOS_FORK_BLKNUM={{.Tangerine}} -c eth.block.SPURIOUS_DRAGON_FORK_BLKNUM={{.Spurious}} -c eth.block.METROPOLIS_FORK_BLKNUM={{.Byzantium}} -c eth.block.DAO_FORK_BLKNUM=18446744073709551615 run --console</pre>
 										</p>
 										<br/>
-										<p>You can find pyethapp at <a href="https://github.com/ethereum/pyethapp/" target="about:blank">https://github.com/ethereum/pyethapp/</a>.</p>
+										<p>You can find pyethapp at <a href="https://github.com/promethium/pyethapp/" target="about:blank">https://github.com/promethium/pyethapp/</a>.</p>
 									</div>
 								</div>
 							</div>
@@ -419,7 +419,7 @@ try! node?.start();
 										<p>Puppeth is a tool to aid you in creating a new Promethium network down to the genesis block, bootnodes, signers, ethstats server, crypto faucet, wallet browsers, block explorer, dashboard and more; without the hassle that it would normally entail to manually configure all these services one by one.</p>
 										<p>Puppeth uses ssh to dial in to remote servers, and builds its network components out of docker containers using docker-compose. The user is guided through the process via a command line wizard that does the heavy lifting and topology configuration automatically behind the scenes.</p>
 										<br/>
-										<p>Puppeth is distributed as part of the <a href="https://promethium.ethereum.org/downloads/" target="about:blank">Geth &amp; Tools</a> bundles, but can also be installed separately via:<pre>go get github.com/promethiumchain/promethium/cmd/puppeth</pre></p>
+										<p>Puppeth is distributed as part of the <a href="https://promethium.promethium.org/downloads/" target="about:blank">Geth &amp; Tools</a> bundles, but can also be installed separately via:<pre>go get github.com/promethiumchain/promethium/cmd/puppeth</pre></p>
 										<br/>
 										<p><em>Copyright 2017. The promethium Authors.</em></p>
 									</div>

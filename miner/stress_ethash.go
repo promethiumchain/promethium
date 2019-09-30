@@ -92,11 +92,11 @@ func main() {
 	time.Sleep(3 * time.Second)
 
 	for _, node := range nodes {
-		var ethereum *eth.Promethium
-		if err := node.Service(&ethereum); err != nil {
+		var promethium *eth.Promethium
+		if err := node.Service(&promethium); err != nil {
 			panic(err)
 		}
-		if err := ethereum.StartMining(1); err != nil {
+		if err := promethium.StartMining(1); err != nil {
 			panic(err)
 		}
 	}
@@ -108,8 +108,8 @@ func main() {
 		index := rand.Intn(len(faucets))
 
 		// Fetch the accessor for the relevant signer
-		var ethereum *eth.Promethium
-		if err := nodes[index%len(nodes)].Service(&ethereum); err != nil {
+		var promethium *eth.Promethium
+		if err := nodes[index%len(nodes)].Service(&promethium); err != nil {
 			panic(err)
 		}
 		// Create a self transaction and inject into the pool
@@ -117,13 +117,13 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		if err := ethereum.TxPool().AddLocal(tx); err != nil {
+		if err := promethium.TxPool().AddLocal(tx); err != nil {
 			panic(err)
 		}
 		nonces[index]++
 
 		// Wait if we're too saturated
-		if pend, _ := ethereum.TxPool().Stats(); pend > 2048 {
+		if pend, _ := promethium.TxPool().Stats(); pend > 2048 {
 			time.Sleep(100 * time.Millisecond)
 		}
 	}

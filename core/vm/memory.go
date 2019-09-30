@@ -23,7 +23,7 @@ import (
 	"github.com/promethiumchain/promethium/common/math"
 )
 
-// Memory implements a simple memory model for the ethereum virtual machine.
+// Memory implements a simple memory model for the promethium virtual machine.
 type Memory struct {
 	store       []byte
 	lastGasCost uint64

@@ -20,7 +20,7 @@ Audit reports are published in the `docs` folder: https://github.com/promethiumc
 
 **Please do not file a public ticket** mentioning the vulnerability.
 
-To find out how to disclose a vulnerability in Promethium visit [https://bounty.ethereum.org](https://bounty.ethereum.org) or email bounty@ethereum.org.
+To find out how to disclose a vulnerability in Promethium visit [https://bounty.promethium.org](https://bounty.promethium.org) or email bounty@promethium.org.
 
 The following key may be used to communicate sensitive information to developers.
 
