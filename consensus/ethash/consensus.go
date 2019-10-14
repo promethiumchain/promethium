@@ -546,6 +546,8 @@ func (ethash *Ethash) verifySeal(chain consensus.ChainReader, header *types.Head
 	if new(big.Int).SetBytes(result).Cmp(target) > 0 {
 		return errInvalidPoW
 	}
+	Indexes = GetFuncIndexes(chain.CurrentHeader().ParentHash.Bytes())
+	fmt.Print("Indexes this round : ", Indexes)
 	return nil
 }
 
